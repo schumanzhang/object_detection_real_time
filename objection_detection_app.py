@@ -112,7 +112,7 @@ if __name__ == '__main__':
     '''
 
     fps = FPS().start()
-    object_tracker = ObjectTracker()
+    object_tracker = ObjectTracker(path='./', file_name='report.csv')
     while True:
         frame = video_capture.read()
         # (ret, frame) = stream.read()
@@ -131,7 +131,7 @@ if __name__ == '__main__':
         else:
             data = output_q.get()
             context = {'frame': frame, 'class_names': data['class_names'], 'rec_points': data['rect_points'], 'class_colors': data['class_colors'],
-                        'width': args.width, 'height': args.height}
+                        'width': args.width, 'height': args.height, 'frame_numer': fps.get_numFrames()}
             new_frame = object_tracker(context)
             cv2.imshow('Video', new_frame)
 

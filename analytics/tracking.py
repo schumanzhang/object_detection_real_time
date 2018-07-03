@@ -1,14 +1,19 @@
 from collections import defaultdict
 import csv
 import cv2
+import os
 
 # tracks and tallys what's present at any particular time on screen
 # puts stats in a csv file in another directory
 # [['person: 98%'], ['book: 55%'], ['book: 50%']]
 class ObjectTracker(object):
-    def __init__(self):
+    def __init__(self, path, file_name):
         self.class_counts = {}
         self.occupancy = False
+        self.fp = open(os.path.join(path, file_name), 'w')
+        self.writer = csv.DictWriter(self.fp, fieldnames=['frame', 'detections'])
+        self.writer.writeheader()
+        self.prev = None
 
 
     def update_class_counts(self, class_names):
@@ -28,8 +33,8 @@ class ObjectTracker(object):
         self.occupancy = False                
 
 
-    def write_to_report(self):
-        pass
+    def write_to_report(self, frame_number):
+        self.writer.writerow({'frame': frame_number, 'detections': self.class_names})
 
 
     def __call__(self, context):
@@ -54,6 +59,8 @@ class ObjectTracker(object):
         if len(list(self.class_counts.keys())) > 0:
             key_1 = str(list(self.class_counts.keys())[0])
             cv2.putText(frame, (key_1 + ':' + str(self.class_counts[key_1])), (int(frame.shape[1] * 0.85), 30), font, 0.6, (255, 255, 255), 1)
+
+        self.write_to_report(context['frame_number'])
 
         return frame
     
