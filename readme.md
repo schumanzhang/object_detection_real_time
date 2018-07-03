@@ -1,0 +1,3 @@
+## Real time object detection application using tensorflow.
+
+Using single shot detection (SSD) deep learning model trained on the COCO image dataset. More to follow...
