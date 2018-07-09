@@ -78,6 +78,7 @@ class WebcamVideoStream:
     def stop(self):
         # stopping the thread
         self.stopped = True
+        self.stream.release()
 
 
 def standard_colors():

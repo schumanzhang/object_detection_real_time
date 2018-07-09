@@ -34,7 +34,7 @@ class ObjectTracker(object):
 
 
     def write_to_report(self, frame_number):
-        self.writer.writerow({'frame': frame_number, 'detections': self.class_names})
+        self.writer.writerow({'frame': frame_number, 'detections': self.class_counts})
 
 
     def __call__(self, context):

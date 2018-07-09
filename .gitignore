@@ -1,2 +1,4 @@
 tf_models/
 *.csv
+*.mp4
+__pycache__/
